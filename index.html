@@ -281,41 +281,6 @@
       }
     }
 
-    .totals {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-    }
-
-    .total-chip {
-      text-align: center;
-      padding: 8px 4px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-    }
-
-    .total-chip .label {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      opacity: 0.85;
-      margin-bottom: 2px;
-    }
-
-    .total-chip .value {
-      display: block;
-      font-size: clamp(1.45rem, 5vw, 1.9rem);
-      font-weight: 800;
-      line-height: 1;
-    }
-
-    .total-chip.punti { background: var(--punti-bg); color: var(--punti); border-color: color-mix(in srgb, var(--punti) 25%, transparent); }
-    .total-chip.assist { background: var(--assist-bg); color: var(--assist); border-color: color-mix(in srgb, var(--assist) 25%, transparent); }
-    .total-chip.rimbalzi { background: var(--rimbalzi-bg); color: var(--rimbalzi); border-color: color-mix(in srgb, var(--rimbalzi) 25%, transparent); }
-    .total-chip.perse { background: var(--perse-bg); color: var(--perse); border-color: color-mix(in srgb, var(--perse) 25%, transparent); }
-
     main {
       max-width: 920px;
       margin: 0 auto;
@@ -580,24 +545,6 @@
       </div>
     </div>
 
-    <div class="totals" aria-live="polite">
-      <div class="total-chip punti">
-        <span class="label">Punti</span>
-        <span class="value" id="tot-punti">0</span>
-      </div>
-      <div class="total-chip assist">
-        <span class="label">Assist</span>
-        <span class="value" id="tot-assist">0</span>
-      </div>
-      <div class="total-chip rimbalzi">
-        <span class="label">Rimbalzi</span>
-        <span class="value" id="tot-rimbalzi">0</span>
-      </div>
-      <div class="total-chip perse">
-        <span class="label">Palle perse</span>
-        <span class="value" id="tot-perse">0</span>
-      </div>
-    </div>
   </header>
 
   <main id="players" aria-label="Statistiche giocatori"></main>
@@ -650,13 +597,7 @@
         toast: document.getElementById("toast"),
         fallback: document.getElementById("fallback"),
         fallbackText: document.getElementById("fallback-text"),
-        fallbackClose: document.getElementById("fallback-close"),
-        totals: {
-          punti: document.getElementById("tot-punti"),
-          assist: document.getElementById("tot-assist"),
-          rimbalzi: document.getElementById("tot-rimbalzi"),
-          perse: document.getElementById("tot-perse")
-        }
+        fallbackClose: document.getElementById("fallback-close")
       };
 
       var toastTimer = null;
@@ -736,14 +677,6 @@
         return totals;
       }
 
-      function updateTotalsUI() {
-        var t = computeTotals();
-        els.totals.punti.textContent = String(t.punti);
-        els.totals.assist.textContent = String(t.assist);
-        els.totals.rimbalzi.textContent = String(t.rimbalzi);
-        els.totals.perse.textContent = String(t.perse);
-      }
-
       function updatePlayerStatUI(player, stat) {
         var val = state.players[player][stat];
         var node = valueNodes[player] && valueNodes[player][stat];
@@ -760,7 +693,6 @@
             updatePlayerStatUI(name, s.key);
           });
         });
-        updateTotalsUI();
         els.undo.disabled = state.history.length === 0;
       }
 
@@ -806,7 +738,6 @@
           }
         }
         updatePlayerStatUI(player, stat);
-        updateTotalsUI();
         els.undo.disabled = state.history.length === 0;
         saveState();
         return true;
