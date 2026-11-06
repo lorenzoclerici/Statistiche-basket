@@ -114,25 +114,30 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      padding: calc(8px + var(--safe-top)) 12px 12px;
+      padding: calc(8px + var(--safe-top)) 10px 10px;
       background:
         linear-gradient(180deg, color-mix(in srgb, var(--brand) 8%, var(--bg-sticky)) 0%, var(--bg-sticky) 100%);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 2px solid var(--brand);
       box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      gap: 8px;
+      align-items: center;
     }
 
     .brand-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 8px;
+      min-width: 0;
     }
 
     .brand-logo {
-      width: 52px;
-      height: 52px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
       flex-shrink: 0;
@@ -150,7 +155,7 @@
 
     .brand-name {
       margin: 0;
-      font-size: clamp(1.45rem, 5.5vw, 1.85rem);
+      font-size: 1.35rem;
       font-weight: 800;
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -173,48 +178,23 @@
       }
     }
 
-    .meta-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .meta-row .actions-row {
-      grid-column: 1 / -1;
-      margin-bottom: 0;
-    }
-
-    @media (min-width: 900px) {
-      .meta-row {
-        grid-template-columns: 1.3fr 0.7fr auto;
-        align-items: end;
-      }
-
-      .meta-row .actions-row {
-        grid-column: auto;
-      }
+    .field {
+      min-width: 0;
     }
 
     .field label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 4px;
+      display: none;
     }
 
     .field input {
       width: 100%;
-      min-height: 42px;
-      padding: 8px 12px;
+      min-height: 40px;
+      padding: 8px 10px;
       border: 1px solid var(--border);
       border-radius: 10px;
       background: var(--bg-elevated);
       color: var(--text);
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 600;
     }
 
@@ -230,27 +210,83 @@
     }
 
     .actions-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin: 0;
     }
 
     .btn {
-      min-height: var(--tap);
-      padding: 0 14px;
+      min-height: 40px;
+      padding: 0 6px;
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 10px;
       background: var(--btn-bg);
       color: var(--btn-text);
-      font-size: 1rem;
+      font-size: 0.92rem;
       font-weight: 700;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
       cursor: pointer;
       touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
       transition: transform 0.12s ease, background 0.12s ease, opacity 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .btn .btn-full { display: none; }
+    .btn .btn-short { display: inline; }
+
+    @media (min-width: 720px) {
+      .sticky-bar {
+        grid-template-columns: auto minmax(180px, 1.2fr) auto;
+        grid-template-rows: auto;
+        gap: 10px 12px;
+        padding: calc(10px + var(--safe-top)) 14px 12px;
+      }
+
+      .brand-logo {
+        width: 48px;
+        height: 48px;
+      }
+
+      .brand-name {
+        font-size: 1.7rem;
+      }
+
+      .field label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
+
+      .field input {
+        min-height: 42px;
+        font-size: 1.15rem;
+        padding: 8px 12px;
+      }
+
+      .actions-row {
+        grid-column: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .btn {
+        min-height: var(--tap);
+        padding: 0 14px;
+        font-size: 1rem;
+        border-radius: 12px;
+      }
+
+      .btn .btn-full { display: inline; }
+      .btn .btn-short { display: none; }
     }
 
     .btn:active:not(:disabled) {
@@ -519,8 +555,8 @@
       <img
         class="brand-logo"
         src="IMG_4959.jpg"
-        width="52"
-        height="52"
+        width="48"
+        height="48"
         alt="Logo Polisportiva Repax - Oratorio Regina Pacis Saronno"
       />
       <div class="brand-text">
@@ -528,23 +564,29 @@
       </div>
     </div>
 
-    <div class="meta-row">
-      <div class="field">
-        <label for="avversario">Avversario</label>
-        <input id="avversario" type="text" autocomplete="off" placeholder="Nome squadra" />
-      </div>
-      <div class="field">
-        <label for="data">Data</label>
-        <input id="data" type="date" />
-      </div>
-      <div class="actions-row">
-        <button type="button" class="btn" id="btn-undo" disabled>Annulla ultimo</button>
-        <button type="button" class="btn btn-danger" id="btn-reset">Nuova partita</button>
-        <button type="button" class="btn" id="btn-copy">Copia per Excel</button>
-        <button type="button" class="btn btn-primary" id="btn-pdf">Scarica PDF</button>
-      </div>
+    <div class="field">
+      <label for="avversario">Avversario</label>
+      <input id="avversario" type="text" autocomplete="off" placeholder="Avversario" enterkeyhint="done" />
     </div>
 
+    <div class="actions-row">
+      <button type="button" class="btn" id="btn-undo" disabled title="Annulla ultimo">
+        <span class="btn-short">Annulla</span>
+        <span class="btn-full">Annulla ultimo</span>
+      </button>
+      <button type="button" class="btn btn-danger" id="btn-reset" title="Nuova partita">
+        <span class="btn-short">Nuova</span>
+        <span class="btn-full">Nuova partita</span>
+      </button>
+      <button type="button" class="btn" id="btn-copy" title="Copia per Excel">
+        <span class="btn-short">Excel</span>
+        <span class="btn-full">Copia per Excel</span>
+      </button>
+      <button type="button" class="btn btn-primary" id="btn-pdf" title="Scarica PDF">
+        <span class="btn-short">PDF</span>
+        <span class="btn-full">Scarica PDF</span>
+      </button>
+    </div>
   </header>
 
   <main id="players" aria-label="Statistiche giocatori"></main>
@@ -581,7 +623,6 @@
 
       var state = {
         avversario: "",
-        data: todayISO(),
         players: {},
         history: []
       };
@@ -589,7 +630,6 @@
       var els = {
         players: document.getElementById("players"),
         avversario: document.getElementById("avversario"),
-        data: document.getElementById("data"),
         undo: document.getElementById("btn-undo"),
         reset: document.getElementById("btn-reset"),
         copy: document.getElementById("btn-copy"),
@@ -617,7 +657,6 @@
 
       function initEmptyState() {
         state.avversario = "";
-        state.data = todayISO();
         state.players = {};
         state.history = [];
         PLAYERS.forEach(function (name) {
@@ -633,7 +672,6 @@
           var parsed = JSON.parse(raw);
           if (!parsed || typeof parsed !== "object") return;
           if (typeof parsed.avversario === "string") state.avversario = parsed.avversario;
-          if (typeof parsed.data === "string" && parsed.data) state.data = parsed.data;
           if (parsed.players && typeof parsed.players === "object") {
             PLAYERS.forEach(function (name) {
               var src = parsed.players[name] || {};
@@ -687,7 +725,6 @@
 
       function refreshAllUI() {
         els.avversario.value = state.avversario;
-        els.data.value = state.data;
         PLAYERS.forEach(function (name) {
           STATS.forEach(function (s) {
             updatePlayerStatUI(name, s.key);
@@ -833,7 +870,7 @@
       function buildPDFBytes() {
         var totals = computeTotals();
         var avversario = (state.avversario || "").trim() || "Non indicato";
-        var dataLabel = formatDateIT(state.data || todayISO());
+        var dataLabel = formatDateIT(todayISO());
         var pageW = 595;
         var pageH = 842;
         var margin = 40;
@@ -955,7 +992,7 @@
 
       function downloadPDF() {
         var avversario = sanitizeFilenamePart(state.avversario || "avversario");
-        var data = sanitizeFilenamePart(state.data || todayISO());
+        var data = sanitizeFilenamePart(todayISO());
         var filename = "statistiche_" + avversario + "_" + data + ".pdf";
         var bytes = buildPDFBytes();
         var blob = new Blob([bytes], { type: "application/pdf" });
@@ -1062,11 +1099,6 @@
       function bindEvents() {
         els.avversario.addEventListener("input", function () {
           state.avversario = els.avversario.value;
-          saveState();
-        });
-
-        els.data.addEventListener("change", function () {
-          state.data = els.data.value || todayISO();
           saveState();
         });
 
